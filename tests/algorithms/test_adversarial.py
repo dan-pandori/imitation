@@ -433,3 +433,23 @@ def test_compute_train_stats(n_samples):
     for k, v in stats.items():
         assert isinstance(k, str)
         assert isinstance(v, float)
+
+
+# TODO parameterize across AIRL and GAIL
+def test_training_improves_loss(
+    trainer: common.AdversarialTrainer,
+    expert_transitions: types.Transitions,
+):
+    expert_samples = types.dataclass_quick_asdict(expert_transitions)
+    # TODO make these a fake set of transitions very different
+    gen_samples = types.dataclass_quick_asdict(expert_transitions)
+    trainer.train_disc(expert_samples=expert_samples, gen_samples=gen_samples)
+    # TODO test that we are better at distinguishing the two types of
+    #      trajectories after some training
+
+    # TODO copy code from the AIRL example to get a model trained
+    # TODO test that discriminator loss improves after training
+    # TODO test that generator loss improves after training
+    # TODO consider using a simplified environment for faster testing
+    # TODO consider creating a static network as an 'expert' to generate
+    #      simple trajectories to distinguish
